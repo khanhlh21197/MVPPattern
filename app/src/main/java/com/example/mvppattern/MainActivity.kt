@@ -18,10 +18,8 @@ class MainActivity : BaseActivity() {
     override fun initializeComponents() {}
 
     override fun registerListeners() {
-        tvLogin.setOnClickListener { supportFragmentManager.addFragment(R.layout.fragment_login,
-            LoginFragment.newInstance(), "Login") }
-        tvSignUp.setOnClickListener { supportFragmentManager.addFragment(R.layout.fragment_signup,
-            SignupFragment.newInstance(), "Sign Up") }
+        tvLogin.setOnClickListener { showFragment(LoginFragment.newInstance()) }
+        tvSignUp.setOnClickListener { showFragment(SignupFragment.newInstance()) }
     }
 
     override fun unRegisterListeners() {
@@ -33,14 +31,9 @@ class MainActivity : BaseActivity() {
         unRegisterListeners()
     }
 
-    fun FragmentManager.addFragment(containerViewId: Int, fragment: Fragment,
-                                    tag: String,
-                                    slideIn: Int = R.anim.slide_left,
-                                    slideOut: Int = R.anim.slide_right){
-        this.beginTransaction()
-            .setCustomAnimations(slideIn, slideOut)
-            .add(containerViewId, fragment, tag)
-            .addToBackStack(null)
-            .commit()
+    fun showFragment(fragment: Fragment){
+        val fragmentTransaction =supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.rootLayout, fragment)
+        fragmentTransaction.commit()
     }
 }
